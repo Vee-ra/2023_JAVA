@@ -23,7 +23,7 @@ import com.itextpdf.layout.element.Table;
 public class GeneratePdf {
 
 	public static void main(String[] args) throws FileNotFoundException {
-
+		// Define the list of maps with data
 		List<Map<String, String>> data = new ArrayList();
 
 		Map<String, String> record1 = new LinkedHashMap();
@@ -55,12 +55,17 @@ public class GeneratePdf {
 		record3.put("Column 6", "data18");
 		record3.put("Status", "Null");
 		data.add(record3);
-
+		
+		// Path to save the PDF file
 		String path = "output.pdf";
 
+		// Create a PdfWriter instance
 		PdfWriter pdfWriter = new PdfWriter(path);
+		// Create a PdfDocument instance
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+		// Set the default page size
 		pdfDocument.setDefaultPageSize(PageSize.A4);
+		// Create a Document instance
 		Document document = new Document(pdfDocument);
 		// document.add(new Paragraph("Hello Coding error"));
 
@@ -76,15 +81,17 @@ public class GeneratePdf {
 		// Add a title to the document with NSimSun font
 		document.add(new Paragraph("Data Table").setFont(nsimSunFont).setBold().setFontSize(20));
 
+		// Create a table with 7 columns
 		Table table = new Table(7);
 
+		// Add table headers
 		for (String header : data.get(0).keySet()) {
 			table.addHeaderCell(new Cell().add(new Paragraph(header).setFont(nsimSunFont).setBold().setFontSize(18)));
 		}
 
 		// Add rows from the data list
 		for (Map<String, String> record : data) {
-            for (Map.Entry<String, String> entry : record.entrySet()) {
+            		for (Map.Entry<String, String> entry : record.entrySet()) {
                 Cell cell = new Cell().add(new Paragraph(entry.getValue()).setFont(nsimSunFont).setBold().setFontSize(16));
                 customizeCellBasedOnStatus(cell, entry.getKey(), entry.getValue());
                 table.addCell(cell);
